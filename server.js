@@ -2,13 +2,37 @@ var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
 
+var pool=require('pg').Pool;
+var config={
+    
+    user:'sudiptomondal',
+    database:'sudiptomondal',
+    host:'db.imad.hasura-app.io'
+    port:'5432',
+    password:process.env.db_password
+    
+};
+
+
 var app = express();
 app.use(morgan('combined'));
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
-
+var pool=new Pool('config');
+app.get('/test-db',function(req,res)){
+    pool.Query('SELECT * FROM test1',function(err,result){
+        
+        if(err)
+        {res.status(500),send(err.tostring());}
+        else
+        {
+            
+            res.send(JSon.stringby(result));
+        }
+    });
+}
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
 });
