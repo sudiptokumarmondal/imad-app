@@ -25,13 +25,16 @@ app.get('/test-db',function(req,res){
     pool.Query('SELECT * FROM test1',function(err,result){
         
         if(err)
-        {res.status(500),send(err.tostring());}
+        {
+            res.status(500),send(err.tostring());
+        }
         else
         {
             
             res.send(JSon.stringby(result));
         }
     });
+});
 
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
